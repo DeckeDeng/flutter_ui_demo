@@ -49,6 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+/**
+ * 累计点击添加
+ */
 class _textSection extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _createText();
@@ -85,19 +88,33 @@ class _createText extends State<_textSection> {
               child: new Icon(Icons.add),
               tooltip: 'Increment',
             )),
-
       ],
     );
   }
 
+  /**
+   * edit text layout
+   */
   Widget _buildTextCompposer() {
     return new Container(
-      padding: EdgeInsets.only(top: 20.0,bottom: 20,left: 30),
+      padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 30),
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: new TextField(
-        controller: _textController,
-        onSubmitted: _handleSubmitted,
-        decoration: new InputDecoration.collapsed(hintText: "send a message"),
+      child: new Row(
+        children: <Widget>[
+          new Flexible(
+              child: new TextField(
+            controller: _textController,
+            onSubmitted: _handleSubmitted,
+            decoration:
+                new InputDecoration.collapsed(hintText: "send a message"),
+          )),
+          new Container(
+            margin: new EdgeInsets.symmetric(horizontal: 4.0),
+            child: new IconButton(
+                icon: new Icon(Icons.send),
+                onPressed: () => _handleSend(_textController.text)),
+          )
+        ],
       ),
     );
   }
@@ -105,8 +122,19 @@ class _createText extends State<_textSection> {
   void _handleSubmitted(String text) {
     _textController.clear();
   }
+
+  /**
+   * 点击事件处理
+   */
+  void _handleSend(String text) {
+    //todo：发送消息
+    print("消息发送");
+  }
 }
 
+/**
+ * 组合
+ */
 class _buttonSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -124,6 +152,9 @@ class _buttonSection extends StatelessWidget {
   }
 }
 
+/**
+ * 抽取 tab button 部分
+ */
 Column buildButtomColumn(BuildContext context, IconData icon, String label) {
   Color color = Theme.of(context).primaryColor;
   return new Column(
@@ -154,6 +185,9 @@ Column buildButtomColumn(BuildContext context, IconData icon, String label) {
   );
 }
 
+/**
+ * 标题位置
+ */
 class _titleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
