@@ -73,21 +73,21 @@ class _createText extends State<_textSection> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         _buildTextCompposer(),
-        new Container(
-          padding: const EdgeInsets.only(top: 40.0),
-          child: new Text('You have pushed the button this many times:'),
-        ),
-        new Text(
-          '$_describe',
-          style: Theme.of(context).textTheme.display1,
-        ),
-        new Container(
-            padding: const EdgeInsets.all(20.0),
-            child: new FloatingActionButton(
-              onPressed: _modifyText,
-              child: new Icon(Icons.add),
-              tooltip: 'Increment',
-            )),
+//        new Container(
+//          padding: const EdgeInsets.only(top: 40.0),
+//          child: new Text('You have pushed the button this many times:'),
+//        ),
+//        new Text(
+//          '$_describe',
+//          style: Theme.of(context).textTheme.display1,
+//        ),
+//        new Container(
+//            padding: const EdgeInsets.all(20.0),
+//            child: new FloatingActionButton(
+//              onPressed: _modifyText,
+//              child: new Icon(Icons.add),
+//              tooltip: 'Increment',
+//            )),
       ],
     );
   }
@@ -187,31 +187,6 @@ class _SecondPageCreate extends State<SecondPage> {
           ],
         ),
       ),
-//      body: new Container(
-//        margin: const EdgeInsets.symmetric(vertical: 10.0),
-//        child: new Row(
-//          crossAxisAlignment: CrossAxisAlignment.start,
-//          children: <Widget>[
-//            new Container(
-//              margin: const EdgeInsets.only(right: 16.0),
-//              child: new CircleAvatar(child: new Text(_name[0]),),
-//            ),
-//            new Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                new Text(_name, style: Theme
-//                    .of(context)
-//                    .textTheme
-//                    .subhead,),
-//                new Container(
-//                  margin: const EdgeInsets.only(top: 5.0),
-//                  child: new Text(text),
-//                )
-//              ],
-//            )
-//          ],
-//        ),
-//      ),
     );
   }
 }
