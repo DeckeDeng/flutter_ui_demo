@@ -129,6 +129,90 @@ class _createText extends State<_textSection> {
   void _handleSend(String text) {
     //todo：发送消息
     print("消息发送");
+    Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => new Second()));
+  }
+}
+
+class Second extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: new ThemeData(primaryColor: Colors.yellow),
+      title: "second",
+      home: new SecondPage(),
+    );
+  }
+}
+
+class SecondPage extends StatefulWidget {
+  SecondPage({Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => new _SecondPageCreate();
+}
+
+class _SecondPageCreate extends State<SecondPage> {
+  final String text;
+
+  _SecondPageCreate({this.text});
+
+  String _name = "Your Name";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: new AppBar(
+        title: new Text('second'),
+      ),
+      body: new Container(
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
+        child: new Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              margin: const EdgeInsets.only(right: 16.0),
+              child: new CircleAvatar(child: new Text(_name[0])),
+            ),
+            new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text(_name, style: Theme.of(context).textTheme.subhead),
+                new Container(
+                  margin: const EdgeInsets.only(top: 5.0),
+                  child: new Text('你的名字'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+//      body: new Container(
+//        margin: const EdgeInsets.symmetric(vertical: 10.0),
+//        child: new Row(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+//          children: <Widget>[
+//            new Container(
+//              margin: const EdgeInsets.only(right: 16.0),
+//              child: new CircleAvatar(child: new Text(_name[0]),),
+//            ),
+//            new Column(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: <Widget>[
+//                new Text(_name, style: Theme
+//                    .of(context)
+//                    .textTheme
+//                    .subhead,),
+//                new Container(
+//                  margin: const EdgeInsets.only(top: 5.0),
+//                  child: new Text(text),
+//                )
+//              ],
+//            )
+//          ],
+//        ),
+//      ),
+    );
   }
 }
 
