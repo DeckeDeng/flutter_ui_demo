@@ -72,22 +72,52 @@ class _createText extends State<_textSection> {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        _buildTextCompposer(),
-//        new Container(
-//          padding: const EdgeInsets.only(top: 40.0),
-//          child: new Text('You have pushed the button this many times:'),
-//        ),
-//        new Text(
-//          '$_describe',
-//          style: Theme.of(context).textTheme.display1,
-//        ),
-//        new Container(
-//            padding: const EdgeInsets.all(20.0),
-//            child: new FloatingActionButton(
-//              onPressed: _modifyText,
-//              child: new Icon(Icons.add),
-//              tooltip: 'Increment',
-//            )),
+//        _buildTextCompposer(),
+        new Container(
+          padding: const EdgeInsets.only(top: 40.0),
+          child: new Text('You have pushed the button this many times:'),
+        ),
+        new Text(
+          '$_describe',
+          style: Theme.of(context).textTheme.display1,
+        ),
+        new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            new Container(
+              padding: const EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                onPressed: _modifyText,
+                child: new Icon(Icons.add),
+                tooltip: 'Increment',
+              ),
+            ),
+            /**The following assertion was thrown during a scheduler callback:
+             *There are multiple heroes that share the same tag within a subtree.
+             *  Within each subtree for which heroes are to be animated (typically a PageRoute subtree), each Hero
+             *  must have a unique non-null tag.
+             *  In this case, multiple heroes had the following tag: <default FloatingActionButton tag>
+             *    Here is the subtree for one of the offending heroes:
+             * */
+//            new Container(
+//              padding: const EdgeInsets.all(20.0),
+//              child: new FloatingActionButton(
+//                onPressed: () {
+////                    Navigator.push(context,
+////                        new MaterialPageRoute(builder: (context) => Second()));
+//                },
+//                child: new Icon(Icons.send),
+//                tooltip: 'Increment',
+//              ),
+//            ),
+            new Container(
+              margin: new EdgeInsets.symmetric(horizontal: 4.0),
+              child: new IconButton(
+                  icon: new Icon(Icons.send),
+                  onPressed: () => _handleSend(_textController.text)),
+            )
+          ],
+        ),
       ],
     );
   }
