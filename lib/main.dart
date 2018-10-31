@@ -56,6 +56,7 @@ class _textSection extends StatefulWidget {
 
 class _createText extends State<_textSection> {
   int _describe = 0;
+  final TextEditingController _textController = new TextEditingController();
 
   void _modifyText() {
     setState(() {
@@ -68,6 +69,7 @@ class _createText extends State<_textSection> {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+        _buildTextCompposer(),
         new Container(
           padding: const EdgeInsets.only(top: 40.0),
           child: new Text('You have pushed the button this many times:'),
@@ -83,8 +85,25 @@ class _createText extends State<_textSection> {
               child: new Icon(Icons.add),
               tooltip: 'Increment',
             )),
+
       ],
     );
+  }
+
+  Widget _buildTextCompposer() {
+    return new Container(
+      padding: EdgeInsets.only(top: 20.0,bottom: 20,left: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: new TextField(
+        controller: _textController,
+        onSubmitted: _handleSubmitted,
+        decoration: new InputDecoration.collapsed(hintText: "send a message"),
+      ),
+    );
+  }
+
+  void _handleSubmitted(String text) {
+    _textController.clear();
   }
 }
 
@@ -103,36 +122,36 @@ class _buttonSection extends StatelessWidget {
     );
     return button;
   }
+}
 
-  Column buildButtomColumn(BuildContext context, IconData icon, String label) {
-    Color color = Theme.of(context).primaryColor;
-    return new Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        new GestureDetector(
-          onTap: () {
-            switch (label) {
-            }
-          },
-          child: new Container(
-            child: new Icon(
-              icon,
-              color: color,
-            ),
+Column buildButtomColumn(BuildContext context, IconData icon, String label) {
+  Color color = Theme.of(context).primaryColor;
+  return new Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      new GestureDetector(
+        onTap: () {
+          switch (label) {
+          }
+        },
+        child: new Container(
+          child: new Icon(
+            icon,
+            color: color,
           ),
         ),
-        new Container(
-          margin: const EdgeInsets.only(top: 8.0),
-          child: new Text(
-            label,
-            style: new TextStyle(
-                fontSize: 12.0, fontWeight: FontWeight.w400, color: color),
-          ),
-        )
-      ],
-    );
-  }
+      ),
+      new Container(
+        margin: const EdgeInsets.only(top: 8.0),
+        child: new Text(
+          label,
+          style: new TextStyle(
+              fontSize: 12.0, fontWeight: FontWeight.w400, color: color),
+        ),
+      )
+    ],
+  );
 }
 
 class _titleSection extends StatelessWidget {
