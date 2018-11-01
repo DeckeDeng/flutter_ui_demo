@@ -131,7 +131,7 @@ class Second extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(primaryColor: Colors.yellow),
-      title: "second",
+      title: "Chat",
       home: new SecondPage(),
     );
   }
@@ -144,7 +144,8 @@ class SecondPage extends StatefulWidget {
   State<StatefulWidget> createState() => new _SecondPageCreate();
 }
 
-class _SecondPageCreate extends State<SecondPage> {
+class _SecondPageCreate extends State<SecondPage>
+    with TickerProviderStateMixin {
   final String text;
   final TextEditingController _textController = new TextEditingController();
 
@@ -156,10 +157,13 @@ class _SecondPageCreate extends State<SecondPage> {
     _textController.clear();
     ChatMessage message = new ChatMessage(
       text: text,
+      animationController: new AnimationController(
+          vsync: this, duration: new Duration(milliseconds: 700)),
     );
     setState(() {
       _messages.insert(0, message);
     });
+    message.animationController.forward();
   }
 
   @override
@@ -179,22 +183,28 @@ class _SecondPageCreate extends State<SecondPage> {
               itemCount: _messages.length,
             ),
           ),
-          new Divider(
-            height: 2.0,
-          ),
+          new Divider(height: 1.0),
           new Container(
             decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-            child: _buildTextCompposer(),
-          )
+            child: _buildTextComposer(), //modified
+          ),
         ],
       ),
     );
   }
 
+  @override
+  void dispose() {
+    //new
+    for (ChatMessage message in _messages)
+      message.animationController.dispose();
+    super.dispose();
+  }
+
   /**
    * edit text layout
    */
-  Widget _buildTextCompposer() {
+  Widget _buildTextComposer() {
     return new Container(
       padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 30),
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -224,41 +234,48 @@ class _SecondPageCreate extends State<SecondPage> {
   void _handleSend(String text) {
     //todo：发送消息
     print("消息发送");
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => new Second()));
+//    Navigator.push(
+//        context, new MaterialPageRoute(builder: (context) => new Second()));
   }
 }
 
 class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text});
+  ChatMessage({this.text, this.animationController});
+
+  final AnimationController animationController;
 
   final String text;
-  String _name = "Your Name";
+  static const String _name = "Your Name";
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      child: new Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Container(
-            margin: const EdgeInsets.only(right: 16.0),
-            child: new CircleAvatar(child: new Text(_name[0])),
-          ),
-          new Column(
+    return new SizeTransition(
+        sizeFactor: new CurvedAnimation(
+            parent: animationController, curve: Curves.easeInOut),
+        axisAlignment: 0.0,
+        child: new Container(
+          //modified
+          margin: const EdgeInsets.symmetric(vertical: 10.0),
+          child: new Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Text(_name, style: Theme.of(context).textTheme.subhead),
               new Container(
-                margin: const EdgeInsets.only(top: 5.0),
-                child: new Text(text),
+                margin: const EdgeInsets.only(right: 16.0),
+                child: new CircleAvatar(child: new Text(_name[0])),
+              ),
+              new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new Text(_name, style: Theme.of(context).textTheme.subhead),
+                  new Container(
+                    margin: const EdgeInsets.only(top: 5.0),
+                    child: new Text(text),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
