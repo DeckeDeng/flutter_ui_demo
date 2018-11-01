@@ -114,53 +114,15 @@ class _createText extends State<_textSection> {
               margin: new EdgeInsets.symmetric(horizontal: 4.0),
               child: new IconButton(
                   icon: new Icon(Icons.send),
-                  onPressed: () => _handleSend(_textController.text)),
+                  onPressed: () {
+                    Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) => Second()));
+                  }),
             )
           ],
         ),
       ],
     );
-  }
-
-  /**
-   * edit text layout
-   */
-  Widget _buildTextCompposer() {
-    return new Container(
-      padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 30),
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: new Row(
-        children: <Widget>[
-          new Flexible(
-              child: new TextField(
-            controller: _textController,
-            onSubmitted: _handleSubmitted,
-            decoration:
-                new InputDecoration.collapsed(hintText: "send a message"),
-          )),
-          new Container(
-            margin: new EdgeInsets.symmetric(horizontal: 4.0),
-            child: new IconButton(
-                icon: new Icon(Icons.send),
-                onPressed: () => _handleSend(_textController.text)),
-          )
-        ],
-      ),
-    );
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-  }
-
-  /**
-   * 点击事件处理
-   */
-  void _handleSend(String text) {
-    //todo：发送消息
-    print("消息发送");
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => new Second()));
   }
 }
 
@@ -184,10 +146,21 @@ class SecondPage extends StatefulWidget {
 
 class _SecondPageCreate extends State<SecondPage> {
   final String text;
+  final TextEditingController _textController = new TextEditingController();
 
   _SecondPageCreate({this.text});
 
-  String _name = "Your Name";
+  final List<ChatMessage> _messages = <ChatMessage>[];
+
+  void _handleSubmitted(String text) {
+    _textController.clear();
+    ChatMessage message = new ChatMessage(
+      text: text,
+    );
+    setState(() {
+      _messages.insert(0, message);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,27 +168,76 @@ class _SecondPageCreate extends State<SecondPage> {
       appBar: new AppBar(
         title: new Text('second'),
       ),
-      body: new Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
-        child: new Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              margin: const EdgeInsets.only(right: 16.0),
-              child: new CircleAvatar(child: new Text(_name[0])),
-            ),
-            new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Text(_name, style: Theme.of(context).textTheme.subhead),
-                new Container(
-                  margin: const EdgeInsets.only(top: 5.0),
-                  child: new Text('你的名字'),
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: _buildTextCompposer(),
+    );
+  }
+
+  /**
+   * edit text layout
+   */
+  Widget _buildTextCompposer() {
+    return new Container(
+      padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: new Row(
+        children: <Widget>[
+          new Flexible(
+              child: new TextField(
+                controller: _textController,
+                onSubmitted: _handleSubmitted,
+                decoration:
+                new InputDecoration.collapsed(hintText: "send a message"),
+              )),
+          new Container(
+            margin: new EdgeInsets.symmetric(horizontal: 4.0),
+            child: new IconButton(
+                icon: new Icon(Icons.send),
+                onPressed: () => _handleSend(_textController.text)),
+          )
+        ],
+      ),
+    );
+  }
+
+  /**
+   * 点击事件处理
+   */
+  void _handleSend(String text) {
+    //todo：发送消息
+    print("消息发送");
+    Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => new Second()));
+  }
+}
+
+class ChatMessage extends StatelessWidget {
+  ChatMessage({this.text});
+
+  final String text;
+  String _name = "Your Name";
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Container(
+            margin: const EdgeInsets.only(right: 16.0),
+            child: new CircleAvatar(child: new Text(_name[0])),
+          ),
+          new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Text(_name, style: Theme.of(context).textTheme.subhead),
+              new Container(
+                margin: const EdgeInsets.only(top: 5.0),
+                child: new Text(text),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
