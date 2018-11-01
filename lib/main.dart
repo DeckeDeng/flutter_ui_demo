@@ -168,7 +168,26 @@ class _SecondPageCreate extends State<SecondPage> {
       appBar: new AppBar(
         title: new Text('second'),
       ),
-      body: _buildTextCompposer(),
+//      body: _buildTextCompposer(),
+      body: new Column(
+        children: <Widget>[
+          new Flexible(
+            child: new ListView.builder(
+              padding: new EdgeInsets.all(8.0),
+              reverse: true,
+              itemBuilder: (_, int index) => _messages[index],
+              itemCount: _messages.length,
+            ),
+          ),
+          new Divider(
+            height: 2.0,
+          ),
+          new Container(
+            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+            child: _buildTextCompposer(),
+          )
+        ],
+      ),
     );
   }
 
@@ -183,11 +202,11 @@ class _SecondPageCreate extends State<SecondPage> {
         children: <Widget>[
           new Flexible(
               child: new TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration:
+            controller: _textController,
+            onSubmitted: _handleSubmitted,
+            decoration:
                 new InputDecoration.collapsed(hintText: "send a message"),
-              )),
+          )),
           new Container(
             margin: new EdgeInsets.symmetric(horizontal: 4.0),
             child: new IconButton(
